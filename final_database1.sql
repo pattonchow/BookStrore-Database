@@ -1,0 +1,143 @@
+DROP DATABASE IF EXISTS finalproject;
+CREATE DATABASE IF NOT EXISTS finalproject;
+USE finalproject;
+
+CREATE TABLE Customer (
+userId INT PRIMARY KEY AUTO_INCREMENT,
+userName VARCHAR(45),
+password_ VARCHAR(45),
+email VARCHAR(45),
+phone_number VARCHAR(11),
+defaultState VARCHAR(255),
+defaultCity VARCHAR(255),
+defaultZip VARCHAR(255),
+defaultStreet VARCHAR(255),
+loginStatus INT,
+is_vip INT
+);
+
+CREATE TABLE Store (
+storeId INT PRIMARY KEY AUTO_INCREMENT,
+storeName VARCHAR(45),
+password_ VARCHAR(45),
+email VARCHAR(45),
+loginStatus INT
+);
+
+
+CREATE TABLE Book (
+bookId INT PRIMARY KEY AUTO_INCREMENT,
+bookName VARCHAR(45),
+bookPrice DOUBLE,
+author VARCHAR(45),
+-- catagory INT,
+publisher VARCHAR(45)
+);
+
+
+CREATE TABLE Evaluation (
+evalutationId INT PRIMARY KEY AUTO_INCREMENT,
+storeId INT,
+bookId INT,
+eva VARCHAR(255),
+FOREIGN KEY (storeId) REFERENCES Store (storeId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (bookId) REFERENCES Book (bookId)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE Category (
+categoryId INT PRIMARY KEY AUTO_INCREMENT,
+categoryy VARCHAR(45)
+);
+
+CREATE TABLE StoretoBook (
+storeId INT,
+bookId INT,
+vipPrice DOUBLE,
+nonVipPrice DOUBLE,
+storageNum INT,
+FOREIGN KEY (storeId) REFERENCES Store (storeId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (bookId) REFERENCES Book (bookId)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE DeliveryCompany (
+companyId INT PRIMARY KEY AUTO_INCREMENT,
+companyName VARCHAR(45),
+unitPrice DOUBLE
+);
+
+CREATE TABLE Address (
+addressId INT PRIMARY KEY AUTO_INCREMENT,
+userId INT,
+phone VARCHAR(11),
+state VARCHAR (255),
+city VARCHAR (255),
+zip VARCHAR (255),
+street VARCHAR (255),
+FOREIGN KEY (userId) REFERENCES Customer (userId)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE _Order (
+orderId INT PRIMARY KEY AUTO_INCREMENT,
+userId INT,
+storeId INT,
+bookId INT,
+addressId INT,
+companyId INT,
+booknum INT,
+totalPrice DOUBLE,
+orderStatus VARCHAR(45),
+orderDate VARCHAR(45),
+FOREIGN KEY (userId) REFERENCES Customer (userId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (storeId) REFERENCES Store(storeId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (bookId) REFERENCES Book(bookId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (addressId) REFERENCES Address(addressId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (companyId) REFERENCES DeliveryCompany(companyId)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE ShoppingCart (
+userId INT,
+storeId INT,
+bookId INT,
+booknum INT,
+totalPrice DOUBLE,
+add_Date VARCHAR (45),
+FOREIGN KEY (storeId) REFERENCES Store (storeId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (bookId) REFERENCES Book (bookId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (userId) REFERENCES Customer (userId)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+CREATE TABLE BooktoCategory(
+bookId INT,
+categoryId INT,
+FOREIGN KEY (bookId) REFERENCES Book(bookId)
+ON UPDATE CASCADE ON DELETE CASCADE,
+FOREIGN KEY (categoryId) REFERENCES Category(categoryId)
+ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+
+
+
+
+
+
+
+
+
